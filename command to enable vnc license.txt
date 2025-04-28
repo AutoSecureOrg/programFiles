@@ -1,0 +1,33 @@
+command to enable VNC license from terminal:
+sudo /usr/bin/vnclicensewiz
+
+
+config for virtual display:
+1. sudo apt install xserver-xorg-video-dummy
+
+2. sudo nano /etc/X11/xorg.conf.d/99-dummy.conf
+
+3. Section "Device"
+    Identifier  "DummyDevice"
+    Driver      "dummy"
+EndSection
+
+Section "Monitor"
+    Identifier  "DummyMonitor"
+    HorizSync   28.0-80.0
+    VertRefresh 48.0-75.0
+    Option      "PreferredMode" "1920x1080"
+EndSection
+
+Section "Screen"
+    Identifier  "DummyScreen"
+    Device      "DummyDevice"
+    Monitor     "DummyMonitor"
+    DefaultDepth 24
+    SubSection  "Display"
+        Depth 24
+        Modes "1920x1080"
+    EndSubSection
+EndSection
+
+4. sudo reboot
