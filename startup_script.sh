@@ -8,8 +8,14 @@ done
 
 echo "Wi-Fi connected."
 
-# Run the email script and then start the Flask backend in the same terminal
-x-terminal-emulator -e "bash -c 'python3 /home/autosecure/FYP/startup/ip_email.py; cd FYP/web-dashboard && source venv/bin/activate && python3 app.py; exec bash'" &
+# Define only the virtual environment path
+VENV_PATH="/home/autosecure/FYP/web-dashboard/venv"
 
-# Launch Metasploit in another terminal and keep it running
+# Run the Flask backend (this one still needs to cd into the project)
+x-terminal-emulator -e "bash -c 'cd /home/autosecure/FYP/web-dashboard && source $VENV_PATH/bin/activate && python3 app.py; exec bash'" &
+
+# Launch Metasploit (no venv needed)
 x-terminal-emulator -e "bash -c 'msfconsole -q -x \"load msgrpc ServerHost=127.0.0.1 ServerPort=55552 Pass=your_password\"; exec bash'" &
+
+# Run AI Server (no need to cd if it’s standalone)
+x-terminal-emulator -e "bash -c 'source $VENV_PATH/bin/activate && python3 /home/autosecure/FYP/startup/ai_server.py; exec bash'" &
