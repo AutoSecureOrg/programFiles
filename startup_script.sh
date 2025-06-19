@@ -12,10 +12,10 @@ echo "Wi-Fi connected."
 VENV_PATH="/home/autosecure/FYP/web-dashboard/venv"
 
 # Run the Flask backend (this one still needs to cd into the project)
-x-terminal-emulator -e "bash -c 'cd /home/autosecure/FYP/web-dashboard && source $VENV_PATH/bin/activate && python3 app.py; exec bash'" &
+x-terminal-emulator -e "bash -c 'cd /home/autosecure/FYP/web-dashboard && source venv/bin/activate && python3 app.py; exec bash'" &
 
 # Launch Metasploit (no venv needed)
 x-terminal-emulator -e "bash -c 'msfconsole -q -x \"load msgrpc ServerHost=127.0.0.1 ServerPort=55552 Pass=your_password\"; exec bash'" &
 
 # Run AI Server (no need to cd if it’s standalone)
-x-terminal-emulator -e "bash -c 'source $VENV_PATH/bin/activate && python3 /home/autosecure/FYP/startup/ai_server.py; exec bash'" &
+x-terminal-emulator -e "bash -c 'cd /home/autosecure/FYP/web-dashboard && source venv/bin/activate && python3 /home/autosecure/FYP/startup/ai_server.py; exec bash'" &
