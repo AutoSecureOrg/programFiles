@@ -1,0 +1,66 @@
+VNC Server Setup:
+sudo apt update && sudo apt upgrade
+sudo apt remove tightvncserver (conflicts)
+download and install realvnc server from website
+sudo systemctl enable vncserver-x11-serviced.service
+sudo systemctl start vncserver-x11-serviced.service
+
+command to enable VNC license from terminal:
+sudo /usr/bin/vnclicensewiz
+
+
+config for virtual display:
+1. sudo apt install xserver-xorg-video-dummy
+
+2. sudo nano /etc/X11/xorg.conf.d/99-dummy.conf
+
+3. Section "Device"
+    Identifier  "DummyDevice"
+    Driver      "dummy"
+EndSection
+
+Section "Monitor"
+    Identifier  "DummyMonitor"
+    HorizSync   28.0-80.0
+    VertRefresh 48.0-75.0
+    Option      "PreferredMode" "1920x1080"
+EndSection
+
+Section "Screen"
+    Identifier  "DummyScreen"
+    Device      "DummyDevice"
+    Monitor     "DummyMonitor"
+    DefaultDepth 24
+    SubSection  "Display"
+        Depth 24
+        Modes "1920x1080"
+    EndSubSection
+EndSection
+
+4. sudo reboot
+
+startup_script.sh in home folder
+chmod +x /home/autosecure/startup_script.sh
+
+then
+mkdir -p ~/.config/AutoStart
+nano ~/.config/autostart/startup_script.desktop
+
+paste:
+[Desktop Entry]
+Type=Application
+Exec=/bin/bash /home/autosecure/startup_script.sh
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=true
+Name=Startup Script
+Comment=Run custom startup script
+
+
+Auto Login:
+# For LightDM (common on Kali)
+sudo nano /etc/lightdm/lightdm.conf
+
+Add or modify these lines in the [Seat:*] section:
+autologin-user=autosecure
+autologin-user-timeout=0
